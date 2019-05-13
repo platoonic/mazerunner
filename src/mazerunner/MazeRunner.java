@@ -31,8 +31,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.concurrent.Task;
+import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioClip;
 
 /**
@@ -50,7 +53,50 @@ public class MazeRunner extends Application {
     @Override
     public void start(Stage primaryStage) {
 	//Initialize Game song
-	song = new GameSong();
+	//song = new GameSong();
+	
+	//Game Launching Scene ----------------------------------------------------------------------------
+        
+        ImageView startGameBG = new ImageView(Config.loadingScreen);
+	ImageView characterSelectionBG = new ImageView(Config.characterSelectionBG);
+        ImageView startGameView = new ImageView(Config.startGameButton);
+        startGameView.setFitWidth(240);
+        startGameView.setFitHeight(70);
+        
+        Button y = new Button("");
+        Button z = new Button("");
+        y.setGraphic(startGameView);
+        y.setStyle("-fx-focus-color: transparent;-fx-width:250px;-fx-height:70px;-fx-faint-focus-color:transparent;-fx-padding:0 0 0 0;");
+        z.setStyle("-fx-focus-color: transparent;-fx-width:250px;-fx-height:70px;-fx-faint-focus-color:transparent;-fx-padding:0 0 0 0;-fx-margin:100 0 0 0;");
+	
+        VBox x = new VBox();
+        x.setAlignment(Pos.CENTER);
+        x.getChildren().add(y);
+        
+        StackPane stack = new StackPane();
+        
+        stack.getChildren().add(startGameBG);
+        stack.getChildren().add(x);
+        
+	//Choose Character scene ----------------------------------------------------------------------------
+	
+	StackPane characterSelection = new StackPane();
+        
+        
+	
+	HBox charactersToChoose = new HBox();
+        charactersToChoose.setAlignment(Pos.CENTER);
+	ImageView heroCharacter = new ImageView(Config.HeroImage);
+        charactersToChoose.getChildren().add(heroCharacter);
+	charactersToChoose.getChildren().add(new ImageView(Config.VillainLoc));
+	
+	characterSelection.getChildren().add(characterSelectionBG);
+	characterSelection.getChildren().add(charactersToChoose);
+	
+	Scene characterSelectionScene = new Scene(characterSelection,800,542);
+	
+	
+        Scene gameStartScene = new Scene(stack, 800, 542);
 	
 	//Linking MazeRunner's primaryStage with JavaFX one
 	this.primaryStage = primaryStage;
@@ -105,7 +151,7 @@ public class MazeRunner extends Application {
         dungeon.getChildren().add(villain2.character);
 	dungeon.getChildren().add(villain3.character);
 	
-	//Initialize Scene
+	//Initialize Game Scene
         Scene scene = new Scene(dungeon,Config.Width,Config.Height);
 	
 	//Gameover scene
@@ -145,12 +191,30 @@ public class MazeRunner extends Application {
                     case RIGHT: hero.goEast  = false; break;
                     case SHIFT: hero.running = false; break;
                 }
-                //System.out.println("released");
             }
         });
+	
+	/* Event Handlers */
+	
+	//Launch scene to character selection scene
+	y.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent e){
+                primaryStage.setScene(characterSelectionScene);
+            }
+        });
+	
+	//Character selection scene to Game
+	heroCharacter.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+	    @Override
+	    public void handle(MouseEvent event) {
+		hero.character.setImage(new Image(Config.PATH+"charRight.gif"));
+		primaryStage.setScene(scene);
+	    }
+        });
         
-        primaryStage.setTitle("MazeRunner v0.2");
-        primaryStage.setScene(scene);
+        primaryStage.setTitle("MazeRunner v1");
+        primaryStage.setScene(gameStartScene);
         primaryStage.show();
 	//Movement Animation
         AnimationTimer timer = new AnimationTimer() {

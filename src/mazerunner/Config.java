@@ -23,9 +23,9 @@ public abstract  class Config {
     public final static int startPosition = 1;
     public final static int GatePrice=2;
     //Characters Images Locations
-    public final static Image HeroImage = new Image(PATH + "IronmanRight.png");
-    public final static Image HeroLeftImage = new Image(PATH + "IronmanLeft.png");
-    public final static Image HeroRightImage = new Image(PATH + "IronmanRight.png");
+    public static Image HeroImage = new Image(PATH + "IronmanRight.png");
+    public static Image HeroLeftImage = new Image(PATH + "IronmanLeft.png");
+    public static Image HeroRightImage = new Image(PATH + "IronmanRight.png");
     
     public final static Image VillainLoc= new Image(PATH + "charRight.gif");
     public final static Image VillainLocLeft= new Image(PATH + "charLeft.gif");
@@ -47,4 +47,9 @@ public abstract  class Config {
     public final static Image shalashCoin= new Image(PATH+"shalashCoin.png");
     //Music Location String
     public final static String songfile = PATH + "gamemusic.mp3";
+    
+    //Game Launching scene
+    public final static Image loadingScreen = new Image(PATH + "gameStartScene/background.jpg");
+    public final static Image startGameButton = new Image(PATH + "gameStartScene/startGameButton.jpg");
+    public final static Image characterSelectionBG = new Image(PATH + "gameStartScene/characterSelectionBG.jpg");
 }
